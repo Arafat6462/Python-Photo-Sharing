@@ -1,161 +1,148 @@
+:root {
+    --primary-accent: #4f46e5; /* A modern, soft indigo */
+    --background-main: #f8fafc; /* Very light grey, almost white */
+    --background-card: #ffffff;
+    --text-primary: #1f2937;   /* Dark grey for text */
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --navbar-bg: #ffffff;
+    --font-family: 'Poppins', sans-serif;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --border-radius: .75rem; /* A slightly larger radius for a softer look */
+}
+
 body {
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(to right, #ece9e6, #ffffff); /* Subtle gradient background */
-    color: #343a40;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    font-family: var(--font-family);
+    background-color: var(--background-main);
+    color: var(--text-primary);
+    line-height: 1.6;
 }
 
 .navbar {
-    background-color: #6f42c1 !important; /* Premium purple for navbar */
-    box-shadow: 0 4px 8px rgba(0,0,0,.15);
+    background-color: var(--navbar-bg) !important;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.navbar-brand, .nav-link {
-    color: #ffffff !important;
+.navbar-brand {
+    font-weight: 700;
+    color: var(--primary-accent) !important;
+}
+
+.nav-link {
     font-weight: 500;
+    color: var(--text-secondary) !important;
+    transition: color .2s ease;
 }
 
-.navbar-brand:hover, .nav-link:hover {
-    color: #e0e0e0 !important;
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-accent) !important;
 }
 
-.container {
-    flex: 1; /* Allow content to grow */
-}
-
-h2, h5 {
-    color: #6f42c1; /* Use primary color for headings */
-    font-weight: 600;
+.content-wrapper {
+    padding-top: 2rem;
 }
 
 .card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0,0,0,.1);
-    transition: transform .3s ease-in-out, box-shadow .3s ease-in-out;
-    background-color: #ffffff;
+    background-color: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    transition: transform .3s ease, box-shadow .3s ease;
 }
 
 .card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 12px 24px rgba(0,0,0,.2);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
 }
 
-.card-img-top {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    height: 200px; /* Fixed height for images */
-    object-fit: cover; /* Ensure images cover the area */
-}
-
-.card-body {
+.card-header {
+    background-color: var(--background-card);
+    border-bottom: 1px solid var(--border-color);
     padding: 1.5rem;
 }
 
-.card-title {
-    font-size: 1.3rem;
-    margin-bottom: 0.75rem;
+.card-header h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
 }
 
-.card-text {
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.text-muted {
-    color: #888 !important;
+.card-body {
+    padding: 2rem;
 }
 
 .btn-primary {
-    background-color: #6f42c1; /* Primary button color */
-    border-color: #6f42c1;
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
     font-weight: 500;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    transition: background-color .3s ease, border-color .3s ease;
+    padding: .75rem 1.5rem;
+    border-radius: var(--border-radius);
+    transition: all .3s ease;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-    background-color: #5a3d9a;
-    border-color: #5a3d9a;
-}
-
-.btn-dark {
-    background-color: #343a40;
-    border-color: #343a40;
-    color: #ffffff;
-}
-
-.btn-dark:hover {
-    background-color: #23272b;
-    border-color: #1d2124;
+    opacity: .9;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .form-control {
-    border-radius: 5px;
-    border: 1px solid #ced4da;
-    padding: 0.75rem 1rem;
+    background-color: var(--background-card);
+    color: var(--text-primary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    padding: .75rem 1rem;
 }
 
 .form-control:focus {
-    border-color: #6f42c1;
-    box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.25);
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 .25rem rgba(79, 70, 229, .25);
 }
 
-/* Specific styles for forms */
-form p {
-    margin-bottom: 1rem;
+.form-check-input {
+    background-color: var(--background-card);
+    border-color: var(--border-color);
 }
 
-form p label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #495057;
+.form-check-input:checked {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
 }
 
-form p input[type="text"],
-form p input[type="password"],
-form p input[type="email"],
-form p textarea,
-form p input[type="file"] {
+.form-label {
+    color: var(--text-secondary);
+}
+
+/* Gallery Specific Styles */
+.gallery-card {
+    border: 1px solid var(--border-color);
+    background-color: var(--background-card);
+}
+
+.gallery-card .card-img-top {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    box-sizing: border-box;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
-form p input[type="checkbox"] {
-    margin-right: 0.5rem;
+.gallery-card .card-body {
+    padding: 1rem;
 }
 
-/* Adjustments for form fields rendered by {{ form.as_p }} */
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
+.gallery-card-title {
+    font-size: 1.1rem;
     font-weight: 500;
-    color: #495057;
+    color: var(--text-primary);
 }
 
-.form-group input[type="text"],
-.form-group input[type="password"],
-.form-group input[type="email"],
-.form-group textarea,
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.form-group input[type="checkbox"] {
-    margin-right: 0.5rem;
+.gallery-card-text {
+    font-size: .9rem;
+    color: var(--text-secondary);
 }

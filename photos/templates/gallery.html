@@ -1,18 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="mb-4">Gallery</h2>
+  <div class="text-center my-5">
+    <h1 class="display-4">Photo Gallery</h1>
+    <p class="lead text-secondary">A collection of moments captured by our creators.</p>
+  </div>
   <div class="row">
     {% for photo in photos %}
-      <div class="col-md-4 mb-4">
-        <div class="card">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card gallery-card">
           <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
           <div class="card-body">
-            <h5 class="card-title">{{ photo.title }}</h5>
-            <p class="card-text">{{ photo.caption }}</p>
-            <p class="card-text"><small class="text-muted">Location: {{ photo.location }}</small></p>
-            <p class="card-text"><small class="text-muted">Creator: {{ photo.creator.username }}</small></p>
+              <h5 class="gallery-card-title">{{ photo.title }}</h5>
+              <p class="gallery-card-text">By {{ photo.creator.username }} in {{ photo.location }}</p>
           </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col">
+        <div class="text-center p-5 rounded" style="background-color: var(--background-card);">
+            <h3 class="text-secondary">The Gallery is Empty</h3>
+            <p class="text-secondary">Be the first to upload a photo and share your moment!</p>
+            {% if user.is_authenticated and user.is_creator %}
+                <a href="{% url 'upload_photo' %}" class="btn btn-primary mt-3">Upload Photo</a>
+            {% elif not user.is_authenticated %}
+                <a href="{% url 'signup' %}" class="btn btn-primary mt-3">Sign Up to Create</a>
+            {% endif %}
         </div>
       </div>
     {% endfor %}
