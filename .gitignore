@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenvs
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Installer / caches
+pip-log.txt
+pip-delete-this-directory.txt
+.cache/
+.pytest_cache/
+.tox/
+.nox/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+# If you collect static into a project folder, ignore it (adjust name if needed)
+static_root/
+
+# Migrations bytecode
+*/migrations/*.py[cod]
+*/migrations/__pycache__/
+
+# Environment / secrets
+.env
+.env.*
+secrets.json
+
+# PostgreSQL local data (if you keep DB files locally)
+pgdata/
+postgres-data/
+*.dump
+
+# Docker
+docker-compose.override.yml
+**/Dockerfile.*.local
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Certificates, keys and other sensitive files
+*.pem
+*.key
+*.crt
+
+# Logs and runtime files
+*.log
+*.pid
+*.sock
+
+# Build artifacts
+*.egg
+*.egg-info/
+dist/
+build/
