@@ -36,3 +36,7 @@ Gemini, let's build a very simple photo-sharing Django app.
 
 7.  **Database:**
     *   Use the `makemigrations` and `migrate` commands to build your database tables.
+
+
+8.  **Instructions to Run:**
+    *   before each step, explain what we are going to do. and explain the impact of each step. dont just give me code. explain each step clearly.
