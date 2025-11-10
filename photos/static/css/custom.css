@@ -1,9 +1,9 @@
 :root {
-    --primary-accent: #4f46e5; /* A modern, soft indigo */
-    --background-main: #f8fafc; /* Very light grey, almost white */
+    --primary-accent: #374558; /* A modern, soft indigo */
+    --background-main: #e2e7eb; /* Very light grey, almost white */
     --background-card: #ffffff;
-    --text-primary: #1f2937;   /* Dark grey for text */
-    --text-secondary: #6b7280;
+    --text-primary: #1f3725;   /* Dark grey for text */
+    --text-secondary: #3c4047;
     --border-color: #e5e7eb;
     --navbar-bg: #ffffff;
     --font-family: 'Poppins', sans-serif;
