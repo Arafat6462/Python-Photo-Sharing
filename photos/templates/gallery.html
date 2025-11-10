@@ -12,7 +12,8 @@
           <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
           <div class="card-body">
               <h5 class="gallery-card-title">{{ photo.title }}</h5>
-              <p class="gallery-card-text">By {{ photo.creator.username }} in {{ photo.location }}</p>
+              <p class="card-text text-secondary">{{ photo.caption }}</p>
+              <p class="gallery-card-text mt-3"><small>By {{ photo.creator.username }} in {{ photo.location }}</small></p>
           </div>
         </div>
       </div>
