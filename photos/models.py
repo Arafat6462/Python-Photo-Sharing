@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    is_creator = models.BooleanField(default=False)
+    is_creatPhotoUploadFormor = models.BooleanField(default=False)
 
 class Photo(models.Model):
     title = models.CharField(max_length=255)
