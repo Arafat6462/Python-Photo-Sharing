@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# --- DEBUGGING START ---
+echo "--- DEBUGGING DEPLOYMENT SCRIPT ---"
+echo "AZURE_POSTGRESQL_CONNECTIONSTRING: $AZURE_POSTGRESQL_CONNECTIONSTRING"
+echo "SECRET_KEY: $SECRET_KEY"
+echo "--- END DEBUGGING ---"
+
 # Stop on any error
 set -e
 
