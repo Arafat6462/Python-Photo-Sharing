@@ -1,5 +1,5 @@
 import os
-from settings import *
+from .settings import *
 
 SECRET_KEY = os.environ['SECRET'] # Set in Azure App Settings
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] # Azure sets this environment variable. 
