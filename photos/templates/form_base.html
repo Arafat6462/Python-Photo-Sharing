@@ -19,4 +19,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Add the 'form-control' class to all form inputs that don't have it
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        if (form) {
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                // We avoid adding the class to checkboxes and submit buttons
+                if (input.type !== 'checkbox' && input.type !== 'submit' && input.type !== 'hidden') {
+                    input.classList.add('form-control');
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}
