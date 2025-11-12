@@ -8,5 +8,8 @@ urlpatterns = [
     path('', include('photos.urls')),
 ]
 
-if settings.DEBUG:
+# Serve media files in development and production.
+# In a high-traffic production environment, it's recommended to use a dedicated web server 
+# like Nginx or a cloud storage service, but this is a simple and effective solution for this setup.
+if settings.DEBUG or not settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
