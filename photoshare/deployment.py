@@ -21,6 +21,25 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Directory for collectstatic
 
 
+# Azure Storage settings for media files
+# You must set these environment variables in your Azure App Service configuration
+AZURE_STORAGE_CONNECTION_STRING = os.environ.get('AZURE_STORAGE_CONNECTION_STRING')
+AZURE_STORAGE_ACCOUNT_NAME = os.environ.get('AZURE_STORAGE_ACCOUNT_NAME')
+
+if AZURE_STORAGE_CONNECTION_STRING:
+    from storages.backends.azure_storage import AzureStorage
+
+    class AzureMediaStorage(AzureStorage):
+        account_name = AZURE_STORAGE_ACCOUNT_NAME
+        account_key = None  # Using connection string, so key is not needed
+        azure_container = 'media'
+        expiration_secs = None
+        connection_string = AZURE_STORAGE_CONNECTION_STRING
+
+    DEFAULT_FILE_STORAGE = 'photoshare.deployment.AzureMediaStorage'
+    MEDIA_URL = f'https://{AZURE_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/media/'
+
+
 # Database configuration for Azure
 connection_string = os.environ.get('AZURE_POSTGRESQL_CONNECTIONSTRING')
 if connection_string:

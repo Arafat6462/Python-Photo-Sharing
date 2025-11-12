@@ -7,4 +7,5 @@ python-dotenv==1.2.1
 sqlparse==0.5.3
 typing_extensions==4.15.0
 whitenoise==6.11.0
-
+django-storages==1.14.3
+azure-storage-blob==12.20.0
