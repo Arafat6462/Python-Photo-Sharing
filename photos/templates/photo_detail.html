@@ -32,12 +32,12 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Rating</h5>
-                    <p>Average Rating: <strong>{{ average_rating|floatformat:1 }}/5</strong> (from {{ rating_count }} ratings)</p>
+                    <p id="rating-display">Average Rating: <strong>{{ average_rating|floatformat:1 }}/5</strong> (from {{ rating_count }} ratings)</p>
                     {% if user.is_authenticated %}
-                        <form method="post">
+                        <form id="rating-form" method="post" action="{% url 'add_rating' photo.id %}">
                             {% csrf_token %}
                             {{ rating_form.as_p }}
-                            <button type="submit" name="submit_rating" class="btn btn-primary">Rate</button>
+                            <button type="submit" class="btn btn-primary">Rate</button>
                         </form>
                     {% else %}
                         <p><a href="{% url 'login' %}">Log in</a> to rate this photo.</p>
@@ -49,22 +49,22 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Comments</h5>
-                    <div class="comment-list" style="max-height: 300px; overflow-y: auto;">
+                    <div id="comment-list" class="comment-list" style="max-height: 300px; overflow-y: auto;">
                         {% for comment in comments %}
                             <div class="mb-2">
                                 <strong>{{ comment.user.username }}</strong> <small class="text-muted">{{ comment.created_at|timesince }} ago</small>
                                 <p>{{ comment.text }}</p>
                             </div>
                         {% empty %}
-                            <p>No comments yet.</p>
+                            <p id="no-comments-msg">No comments yet.</p>
                         {% endfor %}
                     </div>
                     <hr>
                     {% if user.is_authenticated %}
-                        <form method="post">
+                        <form id="comment-form" method="post" action="{% url 'add_comment' photo.id %}">
                             {% csrf_token %}
                             {{ comment_form.as_p }}
-                            <button type="submit" name="submit_comment" class="btn btn-secondary mt-2">Comment</button>
+                            <button type="submit" class="btn btn-secondary mt-2">Comment</button>
                         </form>
                     {% else %}
                         <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
@@ -74,4 +74,77 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const commentForm = document.getElementById('comment-form');
+    const ratingForm = document.getElementById('rating-form');
+
+    // Handle Comment Form Submission
+    if (commentForm) {
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(commentForm);
+            fetch(commentForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const commentList = document.getElementById('comment-list');
+                    const noCommentsMsg = document.getElementById('no-comments-msg');
+                    if (noCommentsMsg) {
+                        noCommentsMsg.remove();
+                    }
+
+                    const newComment = document.createElement('div');
+                    newComment.classList.add('mb-2');
+                    newComment.innerHTML = `
+                        <strong>${data.comment.user}</strong> <small class="text-muted">just now</small>
+                        <p>${data.comment.text}</p>
+                    `;
+                    commentList.prepend(newComment);
+                    commentForm.reset();
+                } else {
+                    // Handle errors if needed
+                    console.error('Error adding comment:', data.errors);
+                }
+            });
+        });
+    }
+
+    // Handle Rating Form Submission
+    if (ratingForm) {
+        ratingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(ratingForm);
+            fetch(ratingForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const ratingDisplay = document.getElementById('rating-display');
+                    ratingDisplay.innerHTML = `Average Rating: <strong>${data.average_rating}/5</strong> (from ${data.rating_count} ratings)`;
+                } else {
+                    // Handle errors if needed
+                    console.error('Error adding rating:', data.errors);
+                }
+            });
+        });
+    }
+});
+</script>
 {% endblock %}

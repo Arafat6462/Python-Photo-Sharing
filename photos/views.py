@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.db import models # Import the models module
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from django.db import models
 from django.db.models import Avg, Count
 from .forms import CustomUserCreationForm, PhotoUploadForm, CommentForm, RatingForm
 from .models import Photo, Comment, Rating
@@ -39,34 +41,10 @@ def gallery(request):
 def photo_detail(request, photo_id):
     photo = get_object_or_404(Photo, pk=photo_id)
     comments = photo.comments.all().order_by('-created_at')
-    
-    # Rating calculation
-    rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=models.Count('score'))
+    rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('score'))
     
     comment_form = CommentForm()
     rating_form = RatingForm()
-
-    if request.method == 'POST' and request.user.is_authenticated:
-        # Differentiate between comment and rating form submissions
-        if 'submit_comment' in request.POST:
-            comment_form = CommentForm(request.POST)
-            if comment_form.is_valid():
-                new_comment = comment_form.save(commit=False)
-                new_comment.photo = photo
-                new_comment.user = request.user
-                new_comment.save()
-                return redirect('photo_detail', photo_id=photo.id)
-        
-        elif 'submit_rating' in request.POST:
-            rating_form = RatingForm(request.POST)
-            if rating_form.is_valid():
-                # Update or create rating
-                Rating.objects.update_or_create(
-                    photo=photo,
-                    user=request.user,
-                    defaults={'score': rating_form.cleaned_data['score']}
-                )
-                return redirect('photo_detail', photo_id=photo.id)
 
     context = {
         'photo': photo,
@@ -77,3 +55,43 @@ def photo_detail(request, photo_id):
         'rating_count': rating_info['rating_count'] or 0,
     }
     return render(request, 'photo_detail.html', context)
+
+@login_required
+@require_POST
+def add_comment(request, photo_id):
+    photo = get_object_or_404(Photo, pk=photo_id)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        new_comment = form.save(commit=False)
+        new_comment.photo = photo
+        new_comment.user = request.user
+        new_comment.save()
+        return JsonResponse({
+            'success': True,
+            'comment': {
+                'user': new_comment.user.username,
+                'text': new_comment.text,
+                'created_at': new_comment.created_at.strftime('%b. %d, %Y, %-I:%M %p')
+            }
+        })
+    return JsonResponse({'success': False, 'errors': form.errors})
+
+@login_required
+@require_POST
+def add_rating(request, photo_id):
+    photo = get_object_or_404(Photo, pk=photo_id)
+    form = RatingForm(request.POST)
+    if form.is_valid():
+        Rating.objects.update_or_create(
+            photo=photo,
+            user=request.user,
+            defaults={'score': form.cleaned_data['score']}
+        )
+        # Recalculate average rating
+        rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('score'))
+        return JsonResponse({
+            'success': True,
+            'average_rating': round(rating_info['average_rating'], 1),
+            'rating_count': rating_info['rating_count']
+        })
+    return JsonResponse({'success': False, 'errors': form.errors})
