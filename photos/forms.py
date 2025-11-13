@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Photo
+from .models import User, Photo, Comment, Rating
 
 class CustomUserCreationForm(UserCreationForm):
     is_creator = forms.BooleanField(
@@ -30,3 +30,20 @@ class PhotoUploadForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
             if isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.update({'rows': '3'})
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+class RatingForm(forms.ModelForm):
+    score = forms.ChoiceField(
+        choices=[(i, str(i)) for i in range(1, 6)],
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    class Meta:
+        model = Rating
+        fields = ['score']

@@ -8,14 +8,16 @@
   <div class="row">
     {% for photo in photos %}
       <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card gallery-card">
-          <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
-          <div class="card-body">
-              <h5 class="gallery-card-title">{{ photo.title }}</h5>
-              <p class="card-text text-secondary">{{ photo.caption }}</p>
-              <p class="gallery-card-text mt-3"><small>By {{ photo.creator.username }} in {{ photo.location }}</small></p>
+        <a href="{% url 'photo_detail' photo.id %}" class="text-decoration-none">
+          <div class="card gallery-card">
+            <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
+            <div class="card-body">
+                <h5 class="gallery-card-title">{{ photo.title }}</h5>
+                <p class="card-text text-secondary">{{ photo.caption }}</p>
+                <p class="gallery-card-text mt-3"><small>By {{ photo.creator.username }} in {{ photo.location }}</small></p>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     {% empty %}
       <div class="col">

@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.gallery, name='gallery'),
+    path('photo/<int:photo_id>/', views.photo_detail, name='photo_detail'),
     path('upload/', views.upload_photo, name='upload_photo'),
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
