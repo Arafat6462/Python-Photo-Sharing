@@ -48,7 +48,9 @@
                 <div id="comment-list">
                     {% for comment in comments %}
                         <div class="comment">
-                            <div class="comment-avatar"></div>
+                            <div class="comment-avatar" style="background-color: {{ comment.avatar_color }};">
+                                {{ comment.user.username|first|upper }}
+                            </div>
                             <div class="comment-body">
                                 <p>
                                     <span class="comment-user">{{ comment.user.username }}</span>
@@ -138,7 +140,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const newComment = document.createElement('div');
                     newComment.classList.add('comment');
                     newComment.innerHTML = `
-                        <div class="comment-avatar"></div>
+                        <div class="comment-avatar" style="background-color: ${data.comment.avatar_color};">
+                            ${data.comment.user.charAt(0).toUpperCase()}
+                        </div>
                         <div class="comment-body">
                             <p>
                                 <span class="comment-user">${data.comment.user}</span>

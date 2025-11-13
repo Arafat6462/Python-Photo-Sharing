@@ -6,8 +6,37 @@ from django.http import JsonResponse, HttpResponseForbidden
 from django.db import models
 from django.db.models import Avg, Count
 from django.contrib import messages # Import messages for user feedback
+from django.views.decorators.cache import cache_page # Import cache_page
 from .forms import CustomUserCreationForm, PhotoUploadForm, CommentForm, RatingForm
 from .models import Photo, Comment, Rating
+
+# Utility function to generate a consistent color based on username
+def get_user_avatar_color(username):
+    # Simple hash function to generate a consistent number from the username
+    hash_value = sum(ord(char) for char in username)
+
+    # Generate HSL values for a wide range of colors
+    # Hue: Varies across the color spectrum (0-360)
+    # Saturation: Kept moderate for a "premium" look (e.g., 50-70%)
+    # Lightness: Kept in a mid-range for good contrast (e.g., 40-60%)
+    hue = hash_value % 360
+    saturation = 60 + (hash_value % 10) # Slightly vary saturation
+    lightness = 50 + (hash_value % 10) # Slightly vary lightness
+
+    # Convert HSL to Hexadecimal
+    # This is a simplified conversion for CSS HSL, not a full HSL to RGB to Hex
+    # For a true "premium" look, we'll use a more controlled set of colors
+    # or a more robust HSL to RGB conversion.
+    # For now, let's use a more curated list of "premium" colors
+    # and pick one based on the hash.
+
+    premium_colors = [
+        "#6C7A89", "#967AA1", "#A3BAC3", "#C1946A", "#7E8A97", "#B0A295",
+        "#8D99AE", "#A7BED3", "#C5D8E4", "#E0BBE4", "#957DAD", "#D291BC",
+        "#FFC72C", "#DA2C38", "#007EA7", "#00A8E8", "#8D6A9F", "#C7B8EA",
+        "#84DCC6", "#A8DADC", "#C4F0C5", "#E6F9AF", "#FFD166", "#FCA3B7"
+    ]
+    return premium_colors[hash_value % len(premium_colors)]
 
 def signup(request):
     if request.method == 'POST':
@@ -44,7 +73,12 @@ def gallery(request):
 
 def photo_detail(request, photo_id):
     photo = get_object_or_404(Photo, pk=photo_id)
-    comments = photo.comments.all().order_by('-created_at') # Added this line
+    comments = photo.comments.all().order_by('-created_at')
+    
+    # Add avatar color to each comment
+    for comment in comments:
+        comment.avatar_color = get_user_avatar_color(comment.user.username)
+
     rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('id'))
     
     comment_form = CommentForm()
@@ -83,7 +117,8 @@ def add_comment(request, photo_id):
             'comment': {
                 'user': new_comment.user.username,
                 'text': new_comment.text,
-                'created_at': new_comment.created_at.strftime('%b. %d, %Y, %-I:%M %p')
+                'created_at': new_comment.created_at.strftime('%b. %d, %Y, %-I:%M %p'),
+                'avatar_color': get_user_avatar_color(new_comment.user.username) # Add avatar color
             }
         })
     return JsonResponse({'success': False, 'errors': form.errors})

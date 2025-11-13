@@ -372,6 +372,12 @@ body {
     border-radius: 50%;
     margin-right: 12px;
     flex-shrink: 0;
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    color: white; /* Text color for the initial */
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 .comment .comment-body p {
