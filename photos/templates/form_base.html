@@ -12,7 +12,7 @@
                     {% csrf_token %}
                     {% block form_content %}{% endblock %}
                     <div class="d-grid mt-4">
-                        <button type="submit" class="btn btn-primary">{% block form_submit_text %}{% endblock %}</button>
+                        <button type="submit" class="btn btn-primary" id="submit-button">{% block form_submit_text %}{% endblock %}</button>
                     </div>
                 </form>
             </div>
@@ -34,5 +34,21 @@
             });
         }
     });
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitButton = document.getElementById('submit-button');
+
+    if (form && submitButton) {
+        form.addEventListener('submit', function() {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...'; // Optional: change text
+        });
+    }
+});
 </script>
 {% endblock %}
