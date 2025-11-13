@@ -1,16 +1,16 @@
 :root {
-    --primary-accent: #007bff; /* A vibrant, professional blue */
+    --primary-accent: #0056b3; /* A richer, darker blue for premium feel */
     --premium-dark: #1a1a1a;
     --premium-light: #ffffff;
     --premium-secondary-text: #888; /* Darkened for better contrast */
     --premium-border: #333333;
     --star-color: #ffc107; /* Gold for stars */
 
-    --background-main: #f0f2f5; /* Lighter main background */
+    --background-main: #f8f9fa; /* Subtle off-white for main background */
     --background-card: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --border-color: #dee2e6;
+    --border-color: #e0e0e0; /* Softened border color */
     --navbar-bg: #ffffff;
     --font-family: 'Poppins', sans-serif;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -129,6 +129,14 @@ body {
 .gallery-card {
     border: 1px solid var(--border-color);
     background-color: var(--background-card);
+    position: relative;
+    overflow: hidden;
+    transition: transform .3s ease, box-shadow .3s ease; /* Added transition */
+}
+
+.gallery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
 }
 
 .gallery-card .card-img-top {
@@ -136,22 +144,116 @@ body {
     object-fit: cover;
     width: 100%;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
+    transition: transform 0.3s ease;
+}
+
+.gallery-card:hover .card-img-top {
+    transform: scale(1.05);
 }
 
 .gallery-card .card-body {
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px; /* Ensure consistent height */
 }
 
 .gallery-card-title {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 1.2rem; /* Slightly larger */
+    font-weight: 600; /* Bolder */
     color: var(--text-primary);
+    margin-bottom: 0.5rem;
 }
 
 .gallery-card-text {
-    font-size: .9rem;
+    font-size: .85rem; /* Slightly smaller */
     color: var(--text-secondary);
+    margin-top: auto; /* Push to bottom */
 }
+
+.gallery-card-rating {
+    font-size: 0.9rem;
+    color: var(--star-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.gallery-card-rating .star-icon {
+    font-size: 1rem;
+    text-shadow: 0 0 3px rgba(255, 193, 7, 0.3); /* Subtle glow */
+}
+
+/* Gallery Card Overlay */
+.gallery-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Slightly darker overlay */
+    color: var(--premium-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    text-align: center;
+}
+
+.gallery-card:hover .gallery-card-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay-title {
+    font-size: 1.5rem; /* Larger */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-overlay-meta {
+    font-size: 1rem; /* Slightly larger */
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.gallery-overlay-rating {
+    font-size: 1.2rem; /* Larger */
+    color: var(--star-color);
+    margin-top: 0.5rem;
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.5); /* Glow effect */
+}
+
+/* Empty Gallery Message Styling */
+.empty-gallery-message {
+    background-color: var(--background-card);
+    border: 1px dashed var(--border-color);
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    margin-top: 3rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.empty-gallery-message h3 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.empty-gallery-message p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.empty-gallery-message .btn {
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+}
+
 
 /* --- Premium Photo Detail Page Styles --- */
 .photo-detail-view {

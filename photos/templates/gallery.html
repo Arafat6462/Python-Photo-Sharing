@@ -27,7 +27,7 @@
       </div>
     {% empty %}
       <div class="col">
-        <div class="text-center p-5 rounded" style="background-color: var(--background-card);">
+        <div class="text-center p-5 rounded empty-gallery-message" style="background-color: var(--background-card);">
             <h3 class="text-secondary">The Gallery is Empty</h3>
             <p class="text-secondary">Be the first to upload a photo and share your moment!</p>
             {% if user.is_authenticated and user.is_creator %}
