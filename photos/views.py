@@ -67,7 +67,8 @@ def upload_photo(request):
 def gallery(request):
     photos = Photo.objects.annotate(
         average_rating=Avg('ratings__score'),
-        rating_count=Count('ratings')
+        rating_count=Count('ratings'),
+        comment_count=Count('comments') # Add this line
     ).order_by('-id')
     return render(request, 'gallery.html', {'photos': photos})
 

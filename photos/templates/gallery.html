@@ -13,14 +13,19 @@
             <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
             <div class="card-body">
                 <h5 class="gallery-card-title">{{ photo.title }}</h5>
-                <div class="gallery-card-rating">
-                    {% if photo.average_rating %}
-                        <span class="star-icon">&#9733;</span> {{ photo.average_rating|floatformat:1 }} ({{ photo.rating_count }})
-                    {% else %}
-                        No ratings yet
-                    {% endif %}
+                <div class="gallery-card-stats">
+                    <div class="gallery-card-rating">
+                        {% if photo.average_rating %}
+                            <span class="star-icon">&#9733;</span> {{ photo.average_rating|floatformat:1 }} ({{ photo.rating_count }})
+                        {% else %}
+                            No ratings yet
+                        {% endif %}
+                    </div>
+                    <div class="gallery-card-comments">
+                        <i class="far fa-comment"></i> {{ photo.comment_count }} comments
+                    </div>
                 </div>
-                <p class="gallery-card-text mt-auto"><small>By {{ photo.creator.username }} {% if photo.location %}in {{ photo.location }}{% endif %}</small></p>
+                <p class="gallery-card-text mt-auto">By {{ photo.creator.username }} {% if photo.location %}in {{ photo.location }}{% endif %}</p>
             </div>
           </div>
         </a>

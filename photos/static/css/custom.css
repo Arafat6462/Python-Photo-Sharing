@@ -3,7 +3,6 @@
     --premium-dark: #1a1a1a;
     --premium-light: #ffffff;
     --premium-secondary-text: #888; /* Darkened for better contrast */
-    --premium-border: #333333;
     --star-color: #ffc107; /* Gold for stars */
 
     --background-main: #f8f9fa; /* Subtle off-white for main background */
@@ -172,11 +171,25 @@ body {
     font-size: 1.2rem; /* Slightly larger */
     font-weight: 600; /* Bolder */
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem; /* Adjusted margin */
+}
+
+.gallery-card-stats { /* New container for rating and comments */
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between rating and comments */
+    margin-bottom: 0.75rem; /* Space below stats */
+}
+
+.gallery-card-stats { /* New container for rating and comments */
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between rating and comments */
+    margin-bottom: 0.75rem; /* Space below stats */
 }
 
 .gallery-card-text {
-    font-size: .85rem; /* Slightly smaller */
+    font-size: 0.9rem; /* Slightly larger for better readability */
     color: var(--text-secondary);
     margin-top: auto; /* Push to bottom */
 }
@@ -184,7 +197,6 @@ body {
 .gallery-card-rating {
     font-size: 0.9rem;
     color: var(--star-color);
-    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -192,6 +204,14 @@ body {
 .gallery-card-rating .star-icon {
     font-size: 1rem;
     text-shadow: 0 0 3px rgba(255, 193, 7, 0.3); /* Subtle glow */
+}
+
+.gallery-card-comments {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 /* Gallery Card Overlay */
@@ -353,10 +373,17 @@ body {
 }
 
 .details-content .photo-meta {
-    font-size: 0.8rem;
-    color: var(--premium-secondary-text);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.9rem; /* Slightly increased font size */
+    color: var(--text-secondary); /* Changed to text-secondary */
+    text-transform: none; /* Removed uppercase */
+    letter-spacing: normal; /* Removed letter spacing */
+    margin-bottom: 1rem; /* Added margin-bottom */
+}
+
+.details-content hr {
+    margin-top: 1.5rem; /* Added vertical margin */
+    margin-bottom: 1.5rem; /* Added vertical margin */
+    border-color: var(--border-color); /* Ensure consistent border color */
 }
 
 .details-content .comment {
@@ -394,14 +421,20 @@ body {
 }
 
 .comment .comment-body .comment-time {
-    font-size: 0.8rem;
-    color: var(--premium-secondary-text);
+    font-size: 0.85rem; /* Slightly increased font size */
+    color: var(--text-secondary); /* Changed to text-secondary */
 }
 
 .details-footer {
     padding: 1.5rem;
     border-top: 1px solid var(--border-color);
     background-color: #f8f9fa;
+}
+
+.details-footer hr {
+    margin-top: 1.5rem; /* Added vertical margin */
+    margin-bottom: 1.5rem; /* Added vertical margin */
+    border-color: var(--border-color); /* Ensure consistent border color */
 }
 
 .details-footer .form-control, .details-footer .form-select {
