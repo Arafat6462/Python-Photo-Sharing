@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.db import models
 from django.db.models import Avg, Count
+from django.contrib import messages # Import messages for user feedback
 from .forms import CustomUserCreationForm, PhotoUploadForm, CommentForm, RatingForm
 from .models import Photo, Comment, Rating
 
@@ -106,3 +107,15 @@ def add_rating(request, photo_id):
             'rating_count': rating_info['rating_count'] or 0
         })
     return JsonResponse({'success': False, 'errors': form.errors})
+
+@login_required
+@require_POST
+def delete_photo(request, photo_id):
+    photo = get_object_or_404(Photo, pk=photo_id)
+    if request.user != photo.creator:
+        messages.error(request, "You are not authorized to delete this photo.")
+        return redirect('photo_detail', photo_id=photo.id)
+    
+    photo.delete()
+    messages.success(request, "Photo deleted successfully!")
+    return redirect('gallery')

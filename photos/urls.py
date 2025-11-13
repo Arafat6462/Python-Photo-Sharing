@@ -7,6 +7,7 @@ urlpatterns = [
     path('photo/<int:photo_id>/', views.photo_detail, name='photo_detail'),
     path('photo/<int:photo_id>/comment/', views.add_comment, name='add_comment'),
     path('photo/<int:photo_id>/rate/', views.add_rating, name='add_rating'),
+    path('photo/<int:photo_id>/delete/', views.delete_photo, name='delete_photo'), # New line
     path('upload/', views.upload_photo, name='upload_photo'),
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
