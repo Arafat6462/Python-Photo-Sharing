@@ -15,6 +15,12 @@ class Photo(models.Model):
     def __str__(self):
         return self.title
 
+    def delete(self, *args, **kwargs):
+        # Delete the image file from storage before deleting the Photo object
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
 class Comment(models.Model):
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
