@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Avg, Count
 from django.contrib import messages # Import messages for user feedback
 from django.views.decorators.cache import cache_page # Import cache_page
+from django.core.cache import cache # Import cache
 from .forms import CustomUserCreationForm, PhotoUploadForm, CommentForm, RatingForm
 from .models import Photo, Comment, Rating
 
@@ -67,8 +68,8 @@ def upload_photo(request):
 def gallery(request):
     photos = Photo.objects.annotate(
         average_rating=Avg('ratings__score'),
-        rating_count=Count('ratings'),
-        comment_count=Count('comments') # Add this line
+        rating_count=Count('ratings', distinct=True),
+        comment_count=Count('comments', distinct=True)
     ).order_by('-id')
     return render(request, 'gallery.html', {'photos': photos})
 
@@ -113,6 +114,7 @@ def add_comment(request, photo_id):
         new_comment.photo = photo
         new_comment.user = request.user
         new_comment.save()
+        cache.clear() # Invalidate cache
         return JsonResponse({
             'success': True,
             'comment': {
@@ -135,6 +137,7 @@ def add_rating(request, photo_id):
             user=request.user,
             defaults={'score': form.cleaned_data['score']}
         )
+        cache.clear() # Invalidate cache
         # Recalculate average rating
         rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('id'))
         return JsonResponse({
