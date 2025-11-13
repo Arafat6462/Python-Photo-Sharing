@@ -146,3 +146,156 @@ body {
     font-size: .9rem;
     color: var(--text-secondary);
 }
+
+/* Photo Detail Image Sizing */
+.col-md-8 .card img {
+    max-height: 60vh; /* Limit height to 60% of viewport height */
+    width: auto; /* Allow width to adjust proportionally */
+    max-width: 100%; /* Ensure it doesn't overflow its container */
+    object-fit: contain; /* Maintain aspect ratio, fit within bounds */
+    display: block; /* For centering */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Adjust card body padding for better look */
+.col-md-8 .card-body {
+    padding: 1rem; /* Reduce padding if needed */
+}
+
+/* Photo Detail Page New Styles */
+.photo-detail-view {
+    display: flex;
+    background-color: var(--background-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    max-height: 85vh; /* Constrain height */
+    margin: auto;
+}
+
+.photo-pane {
+    flex: 3;
+    background-color: #181818;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.photo-pane img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: calc(var(--border-radius) * 0.5);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.details-pane {
+    flex: 1;
+    min-width: 380px; /* Ensure details are readable */
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+}
+
+.details-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+}
+
+.details-header .creator-username {
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+}
+.details-header .creator-username:hover {
+    color: var(--primary-accent);
+}
+
+.details-content {
+    padding: 1.5rem;
+    overflow-y: auto; /* Make this area scrollable */
+    flex-grow: 1;
+}
+
+.details-content .photo-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.details-content .photo-caption {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.details-content .photo-meta {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.details-content .comment {
+    display: flex;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+}
+
+.comment .comment-avatar {
+    width: 32px;
+    height: 32px;
+    background-color: var(--background-main);
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.comment .comment-body p {
+    margin-bottom: 0.1rem;
+}
+
+.comment .comment-body .comment-user {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.comment .comment-body .comment-text {
+    color: var(--text-secondary);
+}
+
+.comment .comment-body .comment-time {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.details-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background-color: #fdfdfd;
+}
+
+.details-footer .form-control, .details-footer .form-select {
+    font-size: 0.9rem;
+    border-radius: 2rem; /* Pill shape */
+}
+
+.details-footer .form-label {
+    display: none; /* Hide labels in compact form */
+}
+
+.details-footer .input-group .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.details-footer .input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
