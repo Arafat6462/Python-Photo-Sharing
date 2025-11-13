@@ -44,7 +44,15 @@ def photo_detail(request, photo_id):
     rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('score'))
     
     comment_form = CommentForm()
-    rating_form = RatingForm()
+    
+    # Get user's existing rating to pre-fill the form
+    rating_initial_data = {}
+    if request.user.is_authenticated:
+        user_rating = Rating.objects.filter(photo=photo, user=request.user).first()
+        if user_rating:
+            rating_initial_data['score'] = user_rating.score
+            
+    rating_form = RatingForm(initial=rating_initial_data)
 
     context = {
         'photo': photo,
