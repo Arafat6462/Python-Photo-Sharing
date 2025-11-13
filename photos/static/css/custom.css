@@ -417,6 +417,44 @@ body {
     border-bottom-left-radius: 0;
 }
 
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .photo-detail-view {
+        flex-direction: column;
+        max-height: none; /* Remove max-height constraint on smaller screens */
+    }
+
+    .photo-pane {
+        flex: none; /* Remove flex sizing */
+        width: 100%; /* Take full width */
+        padding: 0.5rem; /* Adjust padding */
+    }
+
+    .photo-pane img {
+        max-height: 60vh; /* Limit image height on mobile */
+        width: auto; /* Allow image to scale naturally */
+    }
+
+    .details-pane {
+        flex: none; /* Remove flex sizing */
+        min-width: auto; /* Remove fixed min-width */
+        max-width: none; /* Remove fixed max-width */
+        width: 100%; /* Take full width */
+    }
+
+    .details-header, .details-content, .details-footer {
+        padding: 1rem; /* Adjust padding for smaller screens */
+    }
+
+    .details-content .photo-title {
+        font-size: 1.3rem; /* Adjust font size */
+    }
+
+    .star-rating label {
+        font-size: 1.5rem; /* Adjust star size */
+    }
+}
+
 /* Star Rating System */
 .star-rating-form {
     display: flex;
