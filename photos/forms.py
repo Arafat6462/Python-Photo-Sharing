@@ -22,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
 class PhotoUploadForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['title', 'caption', 'location', 'people_present', 'image']
+        fields = ['title', 'caption', 'location', 'image']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
