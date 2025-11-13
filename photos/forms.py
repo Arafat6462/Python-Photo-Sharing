@@ -36,13 +36,13 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Add a comment...'}),
         }
 
 class RatingForm(forms.ModelForm):
     score = forms.ChoiceField(
         choices=[(i, str(i)) for i in range(1, 6)],
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.RadioSelect(attrs={'class': 'star-rating-input'})
     )
     class Meta:
         model = Rating

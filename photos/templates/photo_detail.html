@@ -65,10 +65,15 @@
                         Average Rating: <strong>{{ average_rating|floatformat:1 }}/5</strong> ({{ rating_count }} ratings)
                     </div>
                     {% if user.is_authenticated %}
-                        <form id="rating-form" method="post" action="{% url 'add_rating' photo.id %}" class="d-flex align-items-center">
+                        <form id="rating-form" method="post" action="{% url 'add_rating' photo.id %}" class="star-rating-form">
                             {% csrf_token %}
-                            {{ rating_form.score }}
-                            <button type="submit" class="btn btn-sm btn-primary ms-2">Rate</button>
+                            <div class="star-rating">
+                                {% for radio in rating_form.score %}
+                                    {{ radio.tag }}
+                                    <label for="{{ radio.id_for_label }}">&#9733;</label>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary">Rate</button>
                         </form>
                     {% else %}
                         <p class="mb-0 small"><a href="{% url 'login' %}">Log in</a> to rate.</p>
@@ -148,9 +153,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle Rating Form Submission
     if (ratingForm) {
+        // Auto-submit on star click
+        const stars = ratingForm.querySelectorAll('input[type="radio"]');
+        stars.forEach(star => {
+            star.addEventListener('change', function() {
+                submitRatingForm();
+            });
+        });
+
+        // Also handle form submission via button for accessibility
         ratingForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            submitRatingForm();
+        });
 
+        function submitRatingForm() {
             const formData = new FormData(ratingForm);
             fetch(ratingForm.action, {
                 method: 'POST',
@@ -168,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('Error adding rating:', data.errors);
                 }
             });
-        });
+        }
     }
 });
 </script>

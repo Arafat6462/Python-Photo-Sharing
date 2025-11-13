@@ -1,16 +1,22 @@
 :root {
-    --primary-accent: #374558; /* A modern, soft indigo */
-    --background-main: #e2e7eb; /* Very light grey, almost white */
+    --primary-accent: #007bff; /* A vibrant, professional blue */
+    --premium-dark: #1a1a1a;
+    --premium-light: #ffffff;
+    --premium-secondary-text: #a8a8a8;
+    --premium-border: #333333;
+    --star-color: #ffc107; /* Gold for stars */
+
+    --background-main: #f0f2f5; /* Lighter main background */
     --background-card: #ffffff;
-    --text-primary: #1f3725;   /* Dark grey for text */
-    --text-secondary: #3c4047;
-    --border-color: #e5e7eb;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
     --navbar-bg: #ffffff;
     --font-family: 'Poppins', sans-serif;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --border-radius: .75rem; /* A slightly larger radius for a softer look */
+    --border-radius: .5rem;
 }
 
 body {
@@ -93,7 +99,7 @@ body {
 }
 
 .form-control {
-    background-color: var(--background-card);
+    background-color: #f8f9fa;
     color: var(--text-primary);
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
@@ -102,7 +108,7 @@ body {
 
 .form-control:focus {
     border-color: var(--primary-accent);
-    box-shadow: 0 0 0 .25rem rgba(79, 70, 229, .25);
+    box-shadow: 0 0 0 .25rem rgba(0, 123, 255, .25);
 }
 
 .form-check-input {
@@ -147,35 +153,20 @@ body {
     color: var(--text-secondary);
 }
 
-/* Photo Detail Image Sizing */
-.col-md-8 .card img {
-    max-height: 60vh; /* Limit height to 60% of viewport height */
-    width: auto; /* Allow width to adjust proportionally */
-    max-width: 100%; /* Ensure it doesn't overflow its container */
-    object-fit: contain; /* Maintain aspect ratio, fit within bounds */
-    display: block; /* For centering */
-    margin: 0 auto; /* Center the image horizontally */
-}
-
-/* Adjust card body padding for better look */
-.col-md-8 .card-body {
-    padding: 1rem; /* Reduce padding if needed */
-}
-
-/* Photo Detail Page New Styles */
+/* --- Premium Photo Detail Page Styles --- */
 .photo-detail-view {
     display: flex;
-    background-color: var(--background-card);
+    background-color: var(--premium-dark);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-lg);
     overflow: hidden;
-    max-height: 85vh; /* Constrain height */
+    max-height: 85vh;
     margin: auto;
 }
 
 .photo-pane {
     flex: 3;
-    background-color: #181818;
+    background-color: var(--premium-dark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -187,16 +178,16 @@ body {
     max-height: 100%;
     object-fit: contain;
     border-radius: calc(var(--border-radius) * 0.5);
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
 .details-pane {
     flex: 1;
-    min-width: 380px; /* Ensure details are readable */
-    max-width: 380px;
+    min-width: 400px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid var(--border-color);
+    background-color: var(--premium-light);
+    color: var(--text-primary);
 }
 
 .details-header {
@@ -217,7 +208,7 @@ body {
 
 .details-content {
     padding: 1.5rem;
-    overflow-y: auto; /* Make this area scrollable */
+    overflow-y: auto;
     flex-grow: 1;
 }
 
@@ -277,25 +268,54 @@ body {
 .details-footer {
     padding: 1.5rem;
     border-top: 1px solid var(--border-color);
-    background-color: #fdfdfd;
+    background-color: #f8f9fa;
 }
 
 .details-footer .form-control, .details-footer .form-select {
     font-size: 0.9rem;
-    border-radius: 2rem; /* Pill shape */
 }
 
 .details-footer .form-label {
-    display: none; /* Hide labels in compact form */
+    display: none;
 }
 
 .details-footer .input-group .form-control {
+    border-radius: 2rem;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 .details-footer .input-group .btn {
+    border-radius: 2rem;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    border-top-right-radius: 2rem;
-    border-bottom-right-radius: 2rem;
+}
+
+/* Star Rating System */
+.star-rating-form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse; /* Important for the hover effect */
+    justify-content: flex-end;
+}
+.star-rating input[type="radio"] {
+    display: none; /* Hide the actual radio buttons */
+}
+.star-rating label {
+    font-size: 1.5rem;
+    color: var(--border-color);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating:hover label:hover,
+.star-rating:hover label:hover ~ label {
+    color: var(--star-color);
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: var(--star-color) !important;
 }
