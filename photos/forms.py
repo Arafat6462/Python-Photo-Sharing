@@ -41,7 +41,7 @@ class CommentForm(forms.ModelForm):
 
 class RatingForm(forms.ModelForm):
     score = forms.ChoiceField(
-        choices=[(i, str(i)) for i in range(1, 6)],
+        choices=[(i, str(i)) for i in range(5, 0, -1)], # Reversed order
         widget=forms.RadioSelect(attrs={'class': 'star-rating-input'})
     )
     class Meta:

@@ -2,7 +2,7 @@
     --primary-accent: #007bff; /* A vibrant, professional blue */
     --premium-dark: #1a1a1a;
     --premium-light: #ffffff;
-    --premium-secondary-text: #a8a8a8;
+    --premium-secondary-text: #888; /* Darkened for better contrast */
     --premium-border: #333333;
     --star-color: #ffc107; /* Gold for stars */
 
@@ -212,6 +212,22 @@ body {
     flex-grow: 1;
 }
 
+/* Custom Scrollbar */
+.details-content::-webkit-scrollbar {
+    width: 8px;
+}
+.details-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.details-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+.details-content::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+
 .details-content .photo-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -227,7 +243,7 @@ body {
 
 .details-content .photo-meta {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--premium-secondary-text);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -262,7 +278,7 @@ body {
 
 .comment .comment-body .comment-time {
     font-size: 0.8rem;
-    color: #999;
+    color: var(--premium-secondary-text);
 }
 
 .details-footer {
@@ -305,15 +321,19 @@ body {
     display: none; /* Hide the actual radio buttons */
 }
 .star-rating label {
-    font-size: 1.5rem;
-    color: var(--border-color);
+    font-size: 1.75rem;
+    color: #e0e0e0; /* Lighter color for unselected stars */
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+.star-rating label:hover {
+    transform: scale(1.1);
 }
 .star-rating input[type="radio"]:checked ~ label,
 .star-rating:hover label:hover,
 .star-rating:hover label:hover ~ label {
     color: var(--star-color);
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.5); /* Glow effect */
 }
 .star-rating label:hover,
 .star-rating label:hover ~ label {
