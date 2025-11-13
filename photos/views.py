@@ -35,13 +35,16 @@ def upload_photo(request):
     return render(request, 'upload_photo.html', {'form': form})
 
 def gallery(request):
-    photos = Photo.objects.all().order_by('-id')
+    photos = Photo.objects.annotate(
+        average_rating=Avg('ratings__score'),
+        rating_count=Count('ratings')
+    ).order_by('-id')
     return render(request, 'gallery.html', {'photos': photos})
 
 def photo_detail(request, photo_id):
     photo = get_object_or_404(Photo, pk=photo_id)
     comments = photo.comments.all().order_by('-created_at')
-    rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('score'))
+    rating_info = photo.ratings.aggregate(average_rating=Avg('ratings__score'), rating_count=Count('ratings'))
     
     comment_form = CommentForm()
     
@@ -96,10 +99,10 @@ def add_rating(request, photo_id):
             defaults={'score': form.cleaned_data['score']}
         )
         # Recalculate average rating
-        rating_info = photo.ratings.aggregate(average_rating=Avg('score'), rating_count=Count('score'))
+        rating_info = photo.ratings.aggregate(average_rating=Avg('ratings__score'), rating_count=Count('ratings'))
         return JsonResponse({
             'success': True,
-            'average_rating': round(rating_info['average_rating'], 1),
-            'rating_count': rating_info['rating_count']
+            'average_rating': round(rating_info['average_rating'] or 0, 1),
+            'rating_count': rating_info['rating_count'] or 0
         })
     return JsonResponse({'success': False, 'errors': form.errors})
