@@ -35,6 +35,15 @@ body {
 .navbar-brand {
     font-weight: 700;
     color: var(--primary-accent) !important;
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Vertically align items */
+}
+
+.navbar-favicon {
+    height: 24px; /* Adjust size as needed */
+    width: 24px; /* Adjust size as needed */
+    margin-right: 8px; /* Space between favicon and text */
+    vertical-align: middle; /* Align with text */
 }
 
 .nav-link {
