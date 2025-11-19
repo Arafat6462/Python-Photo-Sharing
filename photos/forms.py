@@ -27,7 +27,7 @@ class PhotoUploadForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
         help_texts = {
-            'image': 'Upload an image or video file.',
+            'image': ' or video',
         }
 
     def __init__(self, *args, **kwargs):

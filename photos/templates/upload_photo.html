@@ -5,7 +5,12 @@
 {% block form_content %}
     {% for field in form %}
         <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+                {% if field.help_text %}
+                    <label class="text-muted">{{ field.help_text }}</label>
+                {% endif %}
+            </label>
             {{ field }}
             {% for error in field.errors %}
                 <div class="text-danger mt-1">{{ error }}</div>
