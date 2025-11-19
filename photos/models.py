@@ -18,8 +18,8 @@ class Photo(models.Model):
 
     def delete(self, *args, **kwargs):
         # Delete the image file from storage before deleting the Photo object
-        if self.file:
-            self.file.delete(save=False)
+        if self.image:
+            self.image.delete(save=False)
         super().delete(*args, **kwargs)
 
 class Comment(models.Model):
