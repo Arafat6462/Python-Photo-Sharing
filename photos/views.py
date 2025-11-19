@@ -59,6 +59,16 @@ def upload_photo(request):
         if form.is_valid():
             photo = form.save(commit=False)
             photo.creator = request.user
+            
+            # Check the file type and set it
+            uploaded_file = request.FILES.get('image')
+            if uploaded_file:
+                content_type = uploaded_file.content_type
+                if content_type.startswith('video'):
+                    photo.file_type = 'video'
+                else:
+                    photo.file_type = 'image'
+            
             photo.save()
             return redirect('gallery')
     else:

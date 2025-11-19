@@ -8,7 +8,11 @@
     <div class="photo-detail-view">
         <!-- Left Pane: Photo -->
         <div class="photo-pane">
-            <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+            {% if photo.file_type == 'video' %}
+                <video src="{{ photo.image.url }}" controls style="width: 100%;"></video>
+            {% else %}
+                <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+            {% endif %}
         </div>
 
         <!-- Right Pane: Details, Comments, Actions -->

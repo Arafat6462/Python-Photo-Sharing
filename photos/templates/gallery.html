@@ -10,7 +10,11 @@
       <div class="col-md-6 col-lg-4 mb-4">
         <a href="{% url 'photo_detail' photo.id %}" class="text-decoration-none">
           <div class="card gallery-card">
-            <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
+            {% if photo.file_type == 'video' %}
+              <video src="{{ photo.image.url }}" class="card-img-top" autoplay loop muted></video>
+            {% else %}
+              <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
+            {% endif %}
             <div class="card-body">
                 <h5 class="gallery-card-title">{{ photo.title }}</h5>
                 <div class="gallery-card-stats">

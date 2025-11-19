@@ -23,6 +23,12 @@ class PhotoUploadForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ['title', 'caption', 'location', 'image']
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+        help_texts = {
+            'image': 'Upload an image or video file.',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

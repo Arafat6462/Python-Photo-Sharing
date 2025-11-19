@@ -9,7 +9,8 @@ class Photo(models.Model):
     caption = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
     people_present = models.CharField(max_length=255, blank=True)
-    image = models.ImageField(upload_to='photos/')
+    image = models.FileField(upload_to='photos/')
+    file_type = models.CharField(max_length=10, default='image') # Add a field to distinguish between image and video
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')
 
     def __str__(self):
@@ -17,8 +18,8 @@ class Photo(models.Model):
 
     def delete(self, *args, **kwargs):
         # Delete the image file from storage before deleting the Photo object
-        if self.image:
-            self.image.delete(save=False)
+        if self.file:
+            self.file.delete(save=False)
         super().delete(*args, **kwargs)
 
 class Comment(models.Model):
