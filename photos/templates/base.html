@@ -22,16 +22,20 @@
         <div class="container-fluid px-4">
             <div class="top-bar-inner">
                 <a class="brand" href="{% url 'gallery' %}">
-                    <img src="{% static 'img/favicon.png' %}" alt="Favicon" class="navbar-favicon" style="width: 24px; height: 24px; object-fit: contain; margin-right: 8px; vertical-align: middle;"> Bloom
+                    <img src="{% static 'img/favicon.png' %}" alt="Favicon" class="navbar-favicon"
+                        style="width: 24px; height: 24px; object-fit: contain; margin-right: 8px; vertical-align: middle;">
+                    Bloom
                 </a>
 
                 <nav class="main-nav">
-                    <a href="{% url 'gallery' %}" class="nav-pill active">
+                    <a href="{% url 'gallery' %}"
+                        class="nav-pill {% if request.resolver_match.url_name == 'gallery' or request.resolver_match.url_name == 'photo_detail' %}active{% endif %}">
                         <i class="fas fa-th-large"></i>
                         <span>Explore</span>
                     </a>
                     {% if user.is_authenticated and user.is_creator %}
-                    <a href="{% url 'upload_photo' %}" class="nav-pill">
+                    <a href="{% url 'upload_photo' %}"
+                        class="nav-pill {% if request.resolver_match.url_name == 'upload_photo' %}active{% endif %}">
                         <i class="fas fa-plus"></i>
                         <span>Create</span>
                     </a>

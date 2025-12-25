@@ -9,9 +9,9 @@
         <!-- Left Pane: Photo -->
         <div class="photo-pane">
             {% if photo.file_type == 'video' %}
-                <video src="{{ photo.image.url }}" controls style="width: 100%;"></video>
+            <video src="{{ photo.image.url }}" controls style="width: 100%;"></video>
             {% else %}
-                <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+            <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
             {% endif %}
         </div>
 
@@ -23,10 +23,11 @@
                     <span class="creator-username">{{ photo.creator.username }}</span>
                 </a>
                 {% if request.user == photo.creator %}
-                    <form action="{% url 'delete_photo' photo.id %}" method="post" class="ms-auto" onsubmit="return confirm('Are you sure you want to delete this photo? This action cannot be undone.');">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                <form action="{% url 'delete_photo' photo.id %}" method="post" class="ms-auto"
+                    onsubmit="return confirm('Are you sure you want to delete this photo? This action cannot be undone.');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
                 {% endif %}
             </div>
 
@@ -34,15 +35,15 @@
             <div class="details-content">
                 <h2 class="photo-title">{{ photo.title }}</h2>
                 {% if photo.caption %}
-                    <p class="photo-caption">{{ photo.caption }}</p>
+                <p class="photo-caption">{{ photo.caption }}</p>
                 {% endif %}
-                
+
                 <div class="photo-meta mb-4">
                     {% if photo.location %}
-                        <div>Location: {{ photo.location }}</div>
+                    <div>Location: {{ photo.location }}</div>
                     {% endif %}
                     {% if photo.people_present %}
-                        <div>People: {{ photo.people_present }}</div>
+                    <div>People: {{ photo.people_present }}</div>
                     {% endif %}
                 </div>
 
@@ -51,20 +52,20 @@
                 <!-- Comments -->
                 <div id="comment-list">
                     {% for comment in comments %}
-                        <div class="comment">
-                            <div class="comment-avatar" style="background-color: '{{ comment.avatar_color }}';">
-                                {{ comment.user.username|first|upper }}
-                            </div>
-                            <div class="comment-body">
-                                <p>
-                                    <span class="comment-user">{{ comment.user.username }}</span>
-                                    <span class="comment-text">{{ comment.text }}</span>
-                                </p>
-                                <div class="comment-time">{{ comment.created_at|timesince }} ago</div>
-                            </div>
+                    <div class="comment">
+                        <div class="comment-avatar" style="background-color: '{{ comment.avatar_color }}';">
+                            {{ comment.user.username|first|upper }}
                         </div>
+                        <div class="comment-body">
+                            <p>
+                                <span class="comment-user">{{ comment.user.username }}</span>
+                                <span class="comment-text">{{ comment.text }}</span>
+                            </p>
+                            <div class="comment-time">{{ comment.created_at|timesince }} ago</div>
+                        </div>
+                    </div>
                     {% empty %}
-                        <p id="no-comments-msg">No comments yet.</p>
+                    <p id="no-comments-msg">No comments yet.</p>
                     {% endfor %}
                 </div>
             </div>
@@ -74,20 +75,22 @@
                 <!-- Rating Display and Form -->
                 <div class="mb-3">
                     <div id="rating-display" class="mb-2 small text-secondary">
-                        Average Rating: <strong>{{ average_rating|floatformat:1 }}/5</strong> ({{ rating_count }} ratings)
+                        Average Rating: <strong>{{ average_rating|floatformat:1 }}/5</strong> ({{ rating_count }}
+                        ratings)
                     </div>
                     {% if user.is_authenticated %}
-                        <form id="rating-form" method="post" action="{% url 'add_rating' photo.id %}" class="star-rating-form">
-                            {% csrf_token %}
-                            <div class="star-rating">
-                                {% for radio in rating_form.score %}
-                                    {{ radio.tag }}
-                                    <label for="{{ radio.id_for_label }}">&#9733;</label>
-                                {% endfor %}
-                            </div>
-                        </form>
+                    <form id="rating-form" method="post" action="{% url 'add_rating' photo.id %}"
+                        class="star-rating-form">
+                        {% csrf_token %}
+                        <div class="star-rating">
+                            {% for radio in rating_form.score %}
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}">&#9733;</label>
+                            {% endfor %}
+                        </div>
+                    </form>
                     {% else %}
-                        <p class="mb-0 small"><a href="{% url 'login' %}">Log in</a> to rate.</p>
+                    <p class="mb-0 small"><a href="{% url 'login' %}">Log in</a> to rate.</p>
                     {% endif %}
                 </div>
 
@@ -103,7 +106,7 @@
                         </div>
                     </form>
                 {% else %}
-                    <p class="mb-0 small"><a href="{% url 'login' %}">Log in</a> to comment.</p>
+                <p class="mb-0 small"><a href="{% url 'login' %}">Log in</a> to comment.</p>
                 {% endif %}
             </div>
         </div>
@@ -113,37 +116,37 @@
 
 {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const commentForm = document.getElementById('comment-form');
-    const ratingForm = document.getElementById('rating-form');
+    document.addEventListener('DOMContentLoaded', function () {
+        const commentForm = document.getElementById('comment-form');
+        const ratingForm = document.getElementById('rating-form');
 
-    // Handle Comment Form Submission
-    if (commentForm) {
-        commentForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(commentForm);
-            const textInput = commentForm.querySelector('textarea');
+        // Handle Comment Form Submission
+        if (commentForm) {
+            commentForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            fetch(commentForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const commentList = document.getElementById('comment-list');
-                    const noCommentsMsg = document.getElementById('no-comments-msg');
-                    if (noCommentsMsg) {
-                        noCommentsMsg.remove();
-                    }
+                const formData = new FormData(commentForm);
+                const textInput = commentForm.querySelector('textarea');
 
-                    const newComment = document.createElement('div');
-                    newComment.classList.add('comment');
-                    newComment.innerHTML = `
+                fetch(commentForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const commentList = document.getElementById('comment-list');
+                            const noCommentsMsg = document.getElementById('no-comments-msg');
+                            if (noCommentsMsg) {
+                                noCommentsMsg.remove();
+                            }
+
+                            const newComment = document.createElement('div');
+                            newComment.classList.add('comment');
+                            newComment.innerHTML = `
                         <div class="comment-avatar" style="background-color: ${data.comment.avatar_color};">
                             ${data.comment.user.charAt(0).toUpperCase()}
                         </div>
@@ -155,51 +158,51 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="comment-time">just now</div>
                         </div>
                     `;
-                    commentList.prepend(newComment);
-                    textInput.value = ''; // Reset textarea
-                } else {
-                    console.error('Error adding comment:', data.errors);
-                }
-            });
-        });
-    }
-
-    // Handle Rating Form Submission
-    if (ratingForm) {
-        // Auto-submit on star click
-        const stars = ratingForm.querySelectorAll('input[type="radio"]');
-        stars.forEach(star => {
-            star.addEventListener('change', function() {
-                submitRatingForm();
-            });
-        });
-
-        // Also handle form submission via button for accessibility
-        ratingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            submitRatingForm();
-        });
-
-        function submitRatingForm() {
-            const formData = new FormData(ratingForm);
-            fetch(ratingForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const ratingDisplay = document.getElementById('rating-display');
-                    ratingDisplay.innerHTML = `Average Rating: <strong>${data.average_rating}/5</strong> (${data.rating_count} ratings)`;
-                } else {
-                    console.error('Error adding rating:', data.errors);
-                }
+                            commentList.prepend(newComment);
+                            textInput.value = ''; // Reset textarea
+                        } else {
+                            console.error('Error adding comment:', data.errors);
+                        }
+                    });
             });
         }
-    }
-});
+
+        // Handle Rating Form Submission
+        if (ratingForm) {
+            // Auto-submit on star click
+            const stars = ratingForm.querySelectorAll('input[type="radio"]');
+            stars.forEach(star => {
+                star.addEventListener('change', function () {
+                    submitRatingForm();
+                });
+            });
+
+            // Also handle form submission via button for accessibility
+            ratingForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitRatingForm();
+            });
+
+            function submitRatingForm() {
+                const formData = new FormData(ratingForm);
+                fetch(ratingForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const ratingDisplay = document.getElementById('rating-display');
+                            ratingDisplay.innerHTML = `Average Rating: <strong>${data.average_rating}/5</strong> (${data.rating_count} ratings)`;
+                        } else {
+                            console.error('Error adding rating:', data.errors);
+                        }
+                    });
+            }
+        }
+    });
 </script>
 {% endblock %}

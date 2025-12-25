@@ -1,22 +1,98 @@
-{% extends 'form_base.html' %}
+{% extends 'base.html' %}
 
-{% block form_title %}Upload Photo{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0" style="background: var(--bg-surface);">
+                <div class="card-header bg-transparent border-0 text-center pt-5 pb-0">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌸</div>
+                    <h2 class="mb-2" style="font-weight: 700; color: var(--text-white);">Upload Moment</h2>
+                    <p class="text-muted">Share your creativity with the world</p>
+                </div>
 
-{% block form_content %}
-    {% for field in form %}
-        <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label">
-                {{ field.label }}
-                {% if field.help_text %}
-                    <label class="text-muted">{{ field.help_text }}</label>
-                {% endif %}
-            </label>
-            {{ field }}
-            {% for error in field.errors %}
-                <div class="text-danger mt-1">{{ error }}</div>
-            {% endfor %}
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Title Field -->
+                        <div class="mb-4">
+                            <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                            <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Image/Video Upload Area -->
+                        <div class="mb-4">
+                            <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Media
+                                File</label>
+                            <div class="upload-area p-4 text-center rounded-3"
+                                style="border: 2px dashed rgba(255,255,255,0.1); background: rgba(0,0,0,0.02);">
+                                <i class="fas fa-cloud-upload-alt mb-3"
+                                    style="font-size: 2rem; color: var(--primary);"></i>
+                                {{ form.image }}
+                                <div class="small text-muted mt-2">Supports JPG, PNG, MP4</div>
+                            </div>
+                            {% if form.image.errors %}
+                            <div class="text-danger small mt-1">{{ form.image.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Caption -->
+                        <div class="mb-4">
+                            <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Caption</label>
+                            {{ form.caption }}
+                            {% if form.caption.errors %}
+                            <div class="text-danger small mt-1">{{ form.caption.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Location & Type -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <label class="form-label text-uppercase small"
+                                    style="letter-spacing: 1px;">Location</label>
+                                {{ form.location }}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Media
+                                    Type</label>
+                                {{ form.file_type }}
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                style="border-radius: 50px; font-weight: 600; letter-spacing: 0.5px;">
+                                Publish to Bloom 🌸
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    {% endfor %}
-{% endblock %}
+    </div>
+</div>
 
-{% block form_submit_text %}Upload{% endblock %}
+<script>
+    // Add form-control class to all inputs
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('input:not([type="checkbox"]):not([type="file"]), textarea, select').forEach(el => {
+            el.classList.add('form-control');
+            el.style.backgroundColor = 'var(--bg-card)';
+            el.style.color = 'var(--text-white)';
+            el.style.border = '1px solid rgba(0,0,0,0.1)';
+        });
+
+        // Custom styling for file input
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+            fileInput.classList.add('form-control');
+            fileInput.style.padding = '10px';
+        }
+    });
+</script>
+{% endblock %}
