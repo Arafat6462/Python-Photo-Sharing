@@ -22,7 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
 class PhotoUploadForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['title', 'caption', 'location', 'file_type', 'image']
+        fields = ['title', 'caption', 'location', 'image']
         widgets = {
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
