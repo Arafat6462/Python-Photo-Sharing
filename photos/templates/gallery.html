@@ -1,51 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="text-center my-5">
-    <h1 class="display-4">Photo Gallery</h1>
-    <p class="lead text-secondary">A collection of moments captured by our creators.</p>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Where Creativity Blooms</h1>
+    <p class="hero-subtitle">Discover stunning photos and share your beautiful moments</p>
+    {% if not user.is_authenticated %}
+    <div class="hero-actions">
+      <a href="{% url 'signup' %}" class="btn-accent btn-lg">Join Free</a>
+      <a href="{% url 'login' %}" class="btn-outline">I have an account</a>
+    </div>
+    {% endif %}
   </div>
-  <div class="row">
-    {% for photo in photos %}
-      <div class="col-md-6 col-lg-4 mb-4">
-        <a href="{% url 'photo_detail' photo.id %}" class="text-decoration-none">
-          <div class="card gallery-card">
-            {% if photo.file_type == 'video' %}
-              <video src="{{ photo.image.url }}" class="card-img-top" autoplay loop muted></video>
-            {% else %}
-              <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.title }}">
+</section>
+
+<!-- Section Header -->
+<section class="section-header">
+  <h2 class="section-title">
+    <span class="title-icon">✨</span>
+    Latest Uploads
+  </h2>
+</section>
+
+<!-- Photo Grid -->
+<section class="photo-grid">
+  {% for photo in photos %}
+  <a href="{% url 'photo_detail' photo.id %}" class="photo-card {% cycle 'tall' '' 'wide' '' '' %}">
+    <div class="photo-wrapper">
+      {% if photo.file_type == 'video' %}
+      <video src="{{ photo.image.url }}" autoplay loop muted playsinline></video>
+      {% else %}
+      <img src="{{ photo.image.url }}" alt="{{ photo.title }}" loading="lazy">
+      {% endif %}
+      <div class="photo-overlay">
+        <div class="photo-info">
+          <h3 class="photo-title">{{ photo.title }}</h3>
+          <div class="photo-meta">
+            <span class="photo-author">
+              <span class="author-avatar">{{ photo.creator.username|first|upper }}</span>
+              {{ photo.creator.username }}
+            </span>
+            {% if photo.average_rating %}
+            <span class="photo-rating">
+              <i class="fas fa-star"></i> {{ photo.average_rating|floatformat:1 }}
+            </span>
             {% endif %}
-            <div class="card-body">
-                <h5 class="gallery-card-title">{{ photo.title }}</h5>
-                <div class="gallery-card-stats">
-                    <div class="gallery-card-rating">
-                        {% if photo.average_rating %}
-                            <span class="star-icon">&#9733;</span> {{ photo.average_rating|floatformat:1 }} ({{ photo.rating_count }})
-                        {% else %}
-                            No ratings yet
-                        {% endif %}
-                    </div>
-                    <div class="gallery-card-comments">
-                        <i class="far fa-comment"></i> {{ photo.comment_count }} comments
-                    </div>
-                </div>
-                <p class="gallery-card-text mt-auto">By {{ photo.creator.username }} {% if photo.location %}in {{ photo.location }}{% endif %}</p>
-            </div>
           </div>
-        </a>
-      </div>
-    {% empty %}
-      <div class="col">
-        <div class="text-center p-5 rounded empty-gallery-message" style="background-color: var(--background-card);">
-            <h3 class="text-secondary">The Gallery is Empty</h3>
-            <p class="text-secondary">Be the first to upload a photo and share your moment!</p>
-            {% if user.is_authenticated and user.is_creator %}
-                <a href="{% url 'upload_photo' %}" class="btn btn-primary mt-3">Upload Photo</a>
-            {% elif not user.is_authenticated %}
-                <a href="{% url 'signup' %}" class="btn btn-primary mt-3">Sign Up to Create</a>
-            {% endif %}
+        </div>
+        <div class="photo-actions">
+          <span class="action-btn"><i class="far fa-heart"></i> {{ photo.rating_count }}</span>
+          <span class="action-btn"><i class="far fa-comment"></i> {{ photo.comment_count }}</span>
         </div>
       </div>
-    {% endfor %}
+    </div>
+  </a>
+  {% empty %}
+  <!-- Empty State -->
+  <div class="empty-state">
+    <div class="empty-icon">📷</div>
+    <h3>No photos yet</h3>
+    <p>Be the first to share something beautiful!</p>
+    {% if user.is_authenticated and user.is_creator %}
+    <a href="{% url 'upload_photo' %}" class="btn-accent">Upload Your First Photo</a>
+    {% elif not user.is_authenticated %}
+    <a href="{% url 'signup' %}" class="btn-accent">Join Bloom</a>
+    {% endif %}
   </div>
+  {% endfor %}
+</section>
 {% endblock %}
