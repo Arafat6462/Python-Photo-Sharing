@@ -5,35 +5,45 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-lg border-0" style="background: var(--bg-surface);">
-                <div class="card-header bg-transparent border-0 text-center pt-5 pb-0">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌸</div>
-                    <h2 class="mb-2" style="font-weight: 700; color: var(--text-white);">Upload Moment</h2>
-                    <p class="text-muted">Share your creativity with the world</p>
+                <div class="card-header bg-transparent border-0 text-center pt-4 pb-0">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🌸</div>
+                    <h3 class="mb-1" style="font-weight: 700; color: var(--text-white);">Upload Moment</h3>
+                    <p class="text-muted small mb-0">Share your creativity</p>
                 </div>
 
-                <div class="card-body p-4 p-md-5">
+                <div class="card-body p-4">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <!-- Title Field -->
-                        <div class="mb-4">
-                            <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Title</label>
-                            {{ form.title }}
-                            {% if form.title.errors %}
-                            <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
-                            {% endif %}
+                        <div class="row g-3 mb-3">
+                            <!-- Title Field -->
+                            <div class="col-md-7">
+                                <label class="form-label text-uppercase small fw-bold"
+                                    style="font-size: 0.75rem; letter-spacing: 1px;">Title</label>
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Location -->
+                            <div class="col-md-5">
+                                <label class="form-label text-uppercase small fw-bold"
+                                    style="font-size: 0.75rem; letter-spacing: 1px;">Location</label>
+                                {{ form.location }}
+                            </div>
                         </div>
 
                         <!-- Image/Video Upload Area -->
-                        <div class="mb-4">
-                            <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Media
-                                File</label>
-                            <div class="upload-area p-4 text-center rounded-3"
-                                style="border: 2px dashed rgba(255,255,255,0.1); background: rgba(0,0,0,0.02);">
-                                <i class="fas fa-cloud-upload-alt mb-3"
-                                    style="font-size: 2rem; color: var(--primary);"></i>
+                        <div class="mb-3">
+                            <label class="form-label text-uppercase small fw-bold"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Media File</label>
+                            <div class="upload-area p-3 text-center rounded-3"
+                                style="border: 2px dashed rgba(0,0,0,0.1); background: rgba(0,0,0,0.02);">
+                                <i class="fas fa-cloud-upload-alt mb-2"
+                                    style="font-size: 1.5rem; color: var(--primary);"></i>
                                 {{ form.image }}
-                                <div class="small text-muted mt-2">Supports JPG, PNG, MP4</div>
+                                <div class="small text-muted mt-1" style="font-size: 0.8rem;">JPG, PNG, MP4</div>
                             </div>
                             {% if form.image.errors %}
                             <div class="text-danger small mt-1">{{ form.image.errors.0 }}</div>
@@ -41,32 +51,19 @@
                         </div>
 
                         <!-- Caption -->
-                        <div class="mb-4">
-                            <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Caption</label>
+                        <div class="mb-3">
+                            <label class="form-label text-uppercase small fw-bold"
+                                style="font-size: 0.75rem; letter-spacing: 1px;">Caption</label>
                             {{ form.caption }}
                             {% if form.caption.errors %}
                             <div class="text-danger small mt-1">{{ form.caption.errors.0 }}</div>
                             {% endif %}
                         </div>
 
-                        <!-- Location & Type -->
-                        <div class="row g-3 mb-4">
-                            <div class="col-12">
-                                <label class="form-label text-uppercase small"
-                                    style="letter-spacing: 1px;">Location</label>
-                                {{ form.location }}
-                            </div>
-                            <!-- <div class="col-6">
-                                <label class="form-label text-uppercase small" style="letter-spacing: 1px;">Media
-                                    Type</label>
-                                {{ form.file_type }}
-                            </div> -->
-                        </div>
-
                         <!-- Submit Button -->
-                        <div class="d-grid mt-5">
-                            <button type="submit" class="btn btn-primary btn-lg"
-                                style="border-radius: 50px; font-weight: 600; letter-spacing: 0.5px;">
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary"
+                                style="border-radius: 50px; font-weight: 600; letter-spacing: 0.5px; padding: 0.75rem;">
                                 Publish to Bloom 🌸
                             </button>
                         </div>
